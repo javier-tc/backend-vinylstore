@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
-import swaggerDocument from "./swagger-output.json" assert { type: "json" };
+import swaggerDocument from "./swagger-output.json" with { type: "json" };
 import usersRouter from "./src/routes/users.js";
 
 const app = express();
