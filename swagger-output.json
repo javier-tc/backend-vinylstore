@@ -845,699 +845,234 @@
   "definitions": {
     "Usuario": {
       "type": "object",
+      "required": [
+        "nombre",
+        "apellido",
+        "email",
+        "password"
+      ],
       "properties": {
-        "type": {
+        "nombre": {
           "type": "string",
-          "example": "object"
+          "example": "Juan"
         },
-        "required": {
-          "type": "array",
-          "example": [
-            "nombre",
-            "apellido",
-            "email",
-            "password"
+        "apellido": {
+          "type": "string",
+          "example": "Pérez"
+        },
+        "email": {
+          "type": "string",
+          "example": "juan@example.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "password123"
+        },
+        "telefono": {
+          "type": "string",
+          "example": "+56912345678"
+        },
+        "direccion": {
+          "type": "string",
+          "example": "Av. Principal 123"
+        },
+        "region": {
+          "type": "string",
+          "example": "Región Metropolitana"
+        },
+        "comuna": {
+          "type": "string",
+          "example": "Santiago"
+        },
+        "rol": {
+          "type": "string",
+          "enum": [
+            "Usuario",
+            "Administrador"
           ],
-          "items": {
-            "type": "string"
-          }
-        },
-        "properties": {
-          "type": "object",
-          "properties": {
-            "nombre": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "Juan"
-                }
-              }
-            },
-            "apellido": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "Pérez"
-                }
-              }
-            },
-            "email": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "juan@example.com"
-                }
-              }
-            },
-            "password": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "password123"
-                }
-              }
-            },
-            "telefono": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "+56912345678"
-                }
-              }
-            },
-            "direccion": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "Av. Principal 123"
-                }
-              }
-            },
-            "region": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "Región Metropolitana"
-                }
-              }
-            },
-            "comuna": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "Santiago"
-                }
-              }
-            },
-            "rol": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "enum": {
-                  "type": "array",
-                  "example": [
-                    "Usuario",
-                    "Administrador"
-                  ],
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                "example": {
-                  "type": "string",
-                  "example": "Usuario"
-                }
-              }
-            }
-          }
+          "example": "Usuario"
         }
       }
     },
     "UsuarioLogin": {
       "type": "object",
+      "required": [
+        "email",
+        "password"
+      ],
       "properties": {
-        "type": {
+        "email": {
           "type": "string",
-          "example": "object"
+          "example": "juan@example.com"
         },
-        "required": {
-          "type": "array",
-          "example": [
-            "email",
-            "password"
-          ],
-          "items": {
-            "type": "string"
-          }
-        },
-        "properties": {
-          "type": "object",
-          "properties": {
-            "email": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "juan@example.com"
-                }
-              }
-            },
-            "password": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "password123"
-                }
-              }
-            }
-          }
+        "password": {
+          "type": "string",
+          "example": "password123"
         }
       }
     },
     "Categoria": {
       "type": "object",
+      "required": [
+        "nombre"
+      ],
       "properties": {
-        "type": {
+        "nombre": {
           "type": "string",
-          "example": "object"
+          "example": "Rock"
         },
-        "required": {
-          "type": "array",
-          "example": [
-            "nombre"
-          ],
-          "items": {
-            "type": "string"
-          }
-        },
-        "properties": {
-          "type": "object",
-          "properties": {
-            "nombre": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "Rock"
-                }
-              }
-            },
-            "descripcion": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "Género musical de rock"
-                }
-              }
-            }
-          }
+        "descripcion": {
+          "type": "string",
+          "example": "Género musical de rock"
         }
       }
     },
     "Producto": {
       "type": "object",
+      "required": [
+        "nombre",
+        "artista",
+        "precio"
+      ],
       "properties": {
-        "type": {
+        "nombre": {
           "type": "string",
-          "example": "object"
+          "example": "Abbey Road"
         },
-        "required": {
-          "type": "array",
-          "example": [
-            "nombre",
-            "artista",
-            "precio"
-          ],
-          "items": {
-            "type": "string"
-          }
+        "artista": {
+          "type": "string",
+          "example": "The Beatles"
         },
-        "properties": {
-          "type": "object",
-          "properties": {
-            "nombre": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "Abbey Road"
-                }
-              }
-            },
-            "artista": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "The Beatles"
-                }
-              }
-            },
-            "precio": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "number"
-                },
-                "example": {
-                  "type": "number",
-                  "example": 29990
-                }
-              }
-            },
-            "categoria_id": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "integer"
-                },
-                "example": {
-                  "type": "number",
-                  "example": 1
-                }
-              }
-            },
-            "stock": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "integer"
-                },
-                "example": {
-                  "type": "number",
-                  "example": 10
-                }
-              }
-            },
-            "descripcion": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "Álbum clásico de The Beatles"
-                }
-              }
-            },
-            "imagen": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "https://example.com/abbey-road.jpg"
-                }
-              }
-            },
-            "activo": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "boolean"
-                },
-                "example": {
-                  "type": "boolean",
-                  "example": true
-                }
-              }
-            }
-          }
+        "precio": {
+          "type": "number",
+          "example": 29990
+        },
+        "categoria_id": {
+          "type": "integer",
+          "example": 1
+        },
+        "stock": {
+          "type": "integer",
+          "example": 10
+        },
+        "descripcion": {
+          "type": "string",
+          "example": "Álbum clásico de The Beatles"
+        },
+        "imagen": {
+          "type": "string",
+          "example": "https://example.com/abbey-road.jpg"
+        },
+        "activo": {
+          "type": "boolean",
+          "example": true
         }
       }
     },
     "Blog": {
       "type": "object",
+      "required": [
+        "titulo",
+        "contenido"
+      ],
       "properties": {
-        "type": {
+        "titulo": {
           "type": "string",
-          "example": "object"
+          "example": "Historia del Vinilo"
         },
-        "required": {
-          "type": "array",
-          "example": [
-            "titulo",
-            "contenido"
-          ],
-          "items": {
-            "type": "string"
-          }
+        "contenido": {
+          "type": "string",
+          "example": "El vinilo ha sido un formato musical icónico..."
         },
-        "properties": {
-          "type": "object",
-          "properties": {
-            "titulo": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "Historia del Vinilo"
-                }
-              }
-            },
-            "contenido": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "El vinilo ha sido un formato musical icónico..."
-                }
-              }
-            },
-            "excerpt": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "Breve descripción del artículo"
-                }
-              }
-            },
-            "imagen": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "https://example.com/vinilo.jpg"
-                }
-              }
-            },
-            "autor_id": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "integer"
-                },
-                "example": {
-                  "type": "number",
-                  "example": 1
-                }
-              }
-            },
-            "publicado": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "boolean"
-                },
-                "example": {
-                  "type": "boolean",
-                  "example": true
-                }
-              }
-            },
-            "fecha_publicacion": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "format": {
-                  "type": "string",
-                  "example": "date"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "2024-01-15"
-                }
-              }
-            }
-          }
+        "excerpt": {
+          "type": "string",
+          "example": "Breve descripción del artículo"
+        },
+        "imagen": {
+          "type": "string",
+          "example": "https://example.com/vinilo.jpg"
+        },
+        "autor_id": {
+          "type": "integer",
+          "example": 1
+        },
+        "publicado": {
+          "type": "boolean",
+          "example": true
+        },
+        "fecha_publicacion": {
+          "type": "string",
+          "format": "date",
+          "example": "2024-01-15"
         }
       }
     },
     "CarritoItem": {
       "type": "object",
+      "required": [
+        "cantidad"
+      ],
       "properties": {
-        "type": {
-          "type": "string",
-          "example": "object"
-        },
-        "required": {
-          "type": "array",
-          "example": [
-            "cantidad"
-          ],
-          "items": {
-            "type": "string"
-          }
-        },
-        "properties": {
-          "type": "object",
-          "properties": {
-            "cantidad": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "integer"
-                },
-                "example": {
-                  "type": "number",
-                  "example": 2
-                }
-              }
-            }
-          }
+        "cantidad": {
+          "type": "integer",
+          "example": 2
         }
       }
     },
     "Orden": {
       "type": "object",
+      "required": [
+        "usuario_id",
+        "total",
+        "items"
+      ],
       "properties": {
-        "type": {
+        "usuario_id": {
+          "type": "integer",
+          "example": 1
+        },
+        "total": {
+          "type": "number",
+          "example": 59980
+        },
+        "direccion_envio": {
           "type": "string",
-          "example": "object"
+          "example": "Av. Principal 123, Santiago"
         },
-        "required": {
+        "telefono_contacto": {
+          "type": "string",
+          "example": "+56912345678"
+        },
+        "notas": {
+          "type": "string",
+          "example": "Entregar en horario de oficina"
+        },
+        "items": {
           "type": "array",
-          "example": [
-            "usuario_id",
-            "total",
-            "items"
-          ],
           "items": {
-            "type": "string"
-          }
-        },
-        "properties": {
-          "type": "object",
-          "properties": {
-            "usuario_id": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "integer"
-                },
-                "example": {
-                  "type": "number",
-                  "example": 1
-                }
-              }
-            },
-            "total": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "number"
-                },
-                "example": {
-                  "type": "number",
-                  "example": 59980
-                }
-              }
-            },
-            "direccion_envio": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "Av. Principal 123, Santiago"
-                }
-              }
-            },
-            "telefono_contacto": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "+56912345678"
-                }
-              }
-            },
-            "notas": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "Entregar en horario de oficina"
-                }
-              }
-            },
-            "items": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "array"
-                },
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "type": {
-                      "type": "string",
-                      "example": "object"
-                    },
-                    "properties": {
-                      "type": "object",
-                      "properties": {
-                        "producto_id": {
-                          "type": "object",
-                          "properties": {
-                            "type": {
-                              "type": "string",
-                              "example": "integer"
-                            },
-                            "example": {
-                              "type": "number",
-                              "example": 1
-                            }
-                          }
-                        },
-                        "cantidad": {
-                          "type": "object",
-                          "properties": {
-                            "type": {
-                              "type": "string",
-                              "example": "integer"
-                            },
-                            "example": {
-                              "type": "number",
-                              "example": 2
-                            }
-                          }
-                        },
-                        "precio_unitario": {
-                          "type": "object",
-                          "properties": {
-                            "type": {
-                              "type": "string",
-                              "example": "number"
-                            },
-                            "example": {
-                              "type": "number",
-                              "example": 29990
-                            }
-                          }
-                        },
-                        "subtotal": {
-                          "type": "object",
-                          "properties": {
-                            "type": {
-                              "type": "string",
-                              "example": "number"
-                            },
-                            "example": {
-                              "type": "number",
-                              "example": 59980
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
+            "type": "object",
+            "required": [
+              "producto_id",
+              "cantidad",
+              "precio_unitario",
+              "subtotal"
+            ],
+            "properties": {
+              "producto_id": {
+                "type": "integer",
+                "example": 1
+              },
+              "cantidad": {
+                "type": "integer",
+                "example": 2
+              },
+              "precio_unitario": {
+                "type": "number",
+                "example": 29990
+              },
+              "subtotal": {
+                "type": "number",
+                "example": 59980
               }
             }
           }
@@ -1547,53 +1082,17 @@
     "OrdenFromCarrito": {
       "type": "object",
       "properties": {
-        "type": {
+        "direccion_envio": {
           "type": "string",
-          "example": "object"
+          "example": "Av. Principal 123, Santiago"
         },
-        "properties": {
-          "type": "object",
-          "properties": {
-            "direccion_envio": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "Av. Principal 123, Santiago"
-                }
-              }
-            },
-            "telefono_contacto": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "+56912345678"
-                }
-              }
-            },
-            "notas": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "Entregar en horario de oficina"
-                }
-              }
-            }
-          }
+        "telefono_contacto": {
+          "type": "string",
+          "example": "+56912345678"
+        },
+        "notas": {
+          "type": "string",
+          "example": "Entregar en horario de oficina"
         }
       }
     }

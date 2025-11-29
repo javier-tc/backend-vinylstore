@@ -6,105 +6,7 @@ const doc = {
     version: "1.0.0"
   },
   host: "localhost:3000",
-  schemes: ["http"],
-  definitions: {
-    Usuario: {
-      type: "object",
-      required: ["nombre", "apellido", "email", "password"],
-      properties: {
-        nombre: { type: "string", example: "Juan" },
-        apellido: { type: "string", example: "Pérez" },
-        email: { type: "string", example: "juan@example.com" },
-        password: { type: "string", example: "password123" },
-        telefono: { type: "string", example: "+56912345678" },
-        direccion: { type: "string", example: "Av. Principal 123" },
-        region: { type: "string", example: "Región Metropolitana" },
-        comuna: { type: "string", example: "Santiago" },
-        rol: { type: "string", enum: ["Usuario", "Administrador"], example: "Usuario" }
-      }
-    },
-    UsuarioLogin: {
-      type: "object",
-      required: ["email", "password"],
-      properties: {
-        email: { type: "string", example: "juan@example.com" },
-        password: { type: "string", example: "password123" }
-      }
-    },
-    Categoria: {
-      type: "object",
-      required: ["nombre"],
-      properties: {
-        nombre: { type: "string", example: "Rock" },
-        descripcion: { type: "string", example: "Género musical de rock" }
-      }
-    },
-    Producto: {
-      type: "object",
-      required: ["nombre", "artista", "precio"],
-      properties: {
-        nombre: { type: "string", example: "Abbey Road" },
-        artista: { type: "string", example: "The Beatles" },
-        precio: { type: "number", example: 29990 },
-        categoria_id: { type: "integer", example: 1 },
-        stock: { type: "integer", example: 10 },
-        descripcion: { type: "string", example: "Álbum clásico de The Beatles" },
-        imagen: { type: "string", example: "https://example.com/abbey-road.jpg" },
-        activo: { type: "boolean", example: true }
-      }
-    },
-    Blog: {
-      type: "object",
-      required: ["titulo", "contenido"],
-      properties: {
-        titulo: { type: "string", example: "Historia del Vinilo" },
-        contenido: { type: "string", example: "El vinilo ha sido un formato musical icónico..." },
-        excerpt: { type: "string", example: "Breve descripción del artículo" },
-        imagen: { type: "string", example: "https://example.com/vinilo.jpg" },
-        autor_id: { type: "integer", example: 1 },
-        publicado: { type: "boolean", example: true },
-        fecha_publicacion: { type: "string", format: "date", example: "2024-01-15" }
-      }
-    },
-    CarritoItem: {
-      type: "object",
-      required: ["cantidad"],
-      properties: {
-        cantidad: { type: "integer", example: 2 }
-      }
-    },
-    Orden: {
-      type: "object",
-      required: ["usuario_id", "total", "items"],
-      properties: {
-        usuario_id: { type: "integer", example: 1 },
-        total: { type: "number", example: 59980 },
-        direccion_envio: { type: "string", example: "Av. Principal 123, Santiago" },
-        telefono_contacto: { type: "string", example: "+56912345678" },
-        notas: { type: "string", example: "Entregar en horario de oficina" },
-        items: {
-          type: "array",
-          items: {
-            type: "object",
-            properties: {
-              producto_id: { type: "integer", example: 1 },
-              cantidad: { type: "integer", example: 2 },
-              precio_unitario: { type: "number", example: 29990 },
-              subtotal: { type: "number", example: 59980 }
-            }
-          }
-        }
-      }
-    },
-    OrdenFromCarrito: {
-      type: "object",
-      properties: {
-        direccion_envio: { type: "string", example: "Av. Principal 123, Santiago" },
-        telefono_contacto: { type: "string", example: "+56912345678" },
-        notas: { type: "string", example: "Entregar en horario de oficina" }
-      }
-    }
-  }
+  schemes: ["http"]
 };
 const outputFile = "./swagger-output.json";
 const endpointsFiles = ["./index.js"];
@@ -293,14 +195,111 @@ swaggerAutogen()(outputFile, endpointsFiles, doc).then(async () => {
   }
   
   //añadir las definiciones con el formato correcto de Swagger 2.0
-  swaggerDoc.definitions.Usuario = doc.definitions.Usuario;
-  swaggerDoc.definitions.UsuarioLogin = doc.definitions.UsuarioLogin;
-  swaggerDoc.definitions.Categoria = doc.definitions.Categoria;
-  swaggerDoc.definitions.Producto = doc.definitions.Producto;
-  swaggerDoc.definitions.Blog = doc.definitions.Blog;
-  swaggerDoc.definitions.CarritoItem = doc.definitions.CarritoItem;
-  swaggerDoc.definitions.Orden = doc.definitions.Orden;
-  swaggerDoc.definitions.OrdenFromCarrito = doc.definitions.OrdenFromCarrito;
+  //(no usar las del doc porque swagger-autogen las procesa incorrectamente)
+  swaggerDoc.definitions.Usuario = {
+    type: "object",
+    required: ["nombre", "apellido", "email", "password"],
+    properties: {
+      nombre: { type: "string", example: "Juan" },
+      apellido: { type: "string", example: "Pérez" },
+      email: { type: "string", example: "juan@example.com" },
+      password: { type: "string", example: "password123" },
+      telefono: { type: "string", example: "+56912345678" },
+      direccion: { type: "string", example: "Av. Principal 123" },
+      region: { type: "string", example: "Región Metropolitana" },
+      comuna: { type: "string", example: "Santiago" },
+      rol: { type: "string", enum: ["Usuario", "Administrador"], example: "Usuario" }
+    }
+  };
+  
+  swaggerDoc.definitions.UsuarioLogin = {
+    type: "object",
+    required: ["email", "password"],
+    properties: {
+      email: { type: "string", example: "juan@example.com" },
+      password: { type: "string", example: "password123" }
+    }
+  };
+  
+  swaggerDoc.definitions.Categoria = {
+    type: "object",
+    required: ["nombre"],
+    properties: {
+      nombre: { type: "string", example: "Rock" },
+      descripcion: { type: "string", example: "Género musical de rock" }
+    }
+  };
+  
+  swaggerDoc.definitions.Producto = {
+    type: "object",
+    required: ["nombre", "artista", "precio"],
+    properties: {
+      nombre: { type: "string", example: "Abbey Road" },
+      artista: { type: "string", example: "The Beatles" },
+      precio: { type: "number", example: 29990 },
+      categoria_id: { type: "integer", example: 1 },
+      stock: { type: "integer", example: 10 },
+      descripcion: { type: "string", example: "Álbum clásico de The Beatles" },
+      imagen: { type: "string", example: "https://example.com/abbey-road.jpg" },
+      activo: { type: "boolean", example: true }
+    }
+  };
+  
+  swaggerDoc.definitions.Blog = {
+    type: "object",
+    required: ["titulo", "contenido"],
+    properties: {
+      titulo: { type: "string", example: "Historia del Vinilo" },
+      contenido: { type: "string", example: "El vinilo ha sido un formato musical icónico..." },
+      excerpt: { type: "string", example: "Breve descripción del artículo" },
+      imagen: { type: "string", example: "https://example.com/vinilo.jpg" },
+      autor_id: { type: "integer", example: 1 },
+      publicado: { type: "boolean", example: true },
+      fecha_publicacion: { type: "string", format: "date", example: "2024-01-15" }
+    }
+  };
+  
+  swaggerDoc.definitions.CarritoItem = {
+    type: "object",
+    required: ["cantidad"],
+    properties: {
+      cantidad: { type: "integer", example: 2 }
+    }
+  };
+  
+  swaggerDoc.definitions.Orden = {
+    type: "object",
+    required: ["usuario_id", "total", "items"],
+    properties: {
+      usuario_id: { type: "integer", example: 1 },
+      total: { type: "number", example: 59980 },
+      direccion_envio: { type: "string", example: "Av. Principal 123, Santiago" },
+      telefono_contacto: { type: "string", example: "+56912345678" },
+      notas: { type: "string", example: "Entregar en horario de oficina" },
+      items: {
+        type: "array",
+        items: {
+          type: "object",
+          required: ["producto_id", "cantidad", "precio_unitario", "subtotal"],
+          properties: {
+            producto_id: { type: "integer", example: 1 },
+            cantidad: { type: "integer", example: 2 },
+            precio_unitario: { type: "number", example: 29990 },
+            subtotal: { type: "number", example: 59980 }
+          }
+        }
+      }
+    }
+  };
+  
+  swaggerDoc.definitions.OrdenFromCarrito = {
+    type: "object",
+    properties: {
+      direccion_envio: { type: "string", example: "Av. Principal 123, Santiago" },
+      telefono_contacto: { type: "string", example: "+56912345678" },
+      notas: { type: "string", example: "Entregar en horario de oficina" }
+    }
+  };
   
   await fs.writeFile(outputFile, JSON.stringify(swaggerDoc, null, 2));
   
