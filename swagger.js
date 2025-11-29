@@ -1,10 +1,10 @@
 import swaggerAutogen from "swagger-autogen";
 const doc = {
 info: {
-title: "API de ejemplo",
-description: "Documentación de la API de ejemplo de un servicio node.js",
+title: "API Vinylstore",
+description: "Documentación de la API de Vinylstore",
 },
-host: "localhost:3000",
+host: "98.89.63.203:3000",
 schemes: ["http"],
 };
 const outputFile = "./swagger-output.json";
