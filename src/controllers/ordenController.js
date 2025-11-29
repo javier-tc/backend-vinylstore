@@ -27,6 +27,19 @@ export const ordenController = {
 
   async create(req, res) {
     try {
+      const userId = req.user.id;
+      const { usuario_id } = req.body;
+
+      //verificar que el usuario solo pueda crear órdenes para sí mismo
+      if (usuario_id && parseInt(usuario_id) !== userId && req.user.rol !== 'Administrador') {
+        return res.status(403).json({ error: 'No tienes permisos para crear órdenes para este usuario' });
+      }
+
+      //si no se especifica usuario_id, usar el del token
+      if (!usuario_id) {
+        req.body.usuario_id = userId;
+      }
+
       const orden = await Orden.create(req.body);
       res.status(201).json(orden);
     } catch (error) {
@@ -38,6 +51,12 @@ export const ordenController = {
     try {
       const { usuarioId } = req.params;
       const { direccion_envio, telefono_contacto, notas } = req.body;
+      const userId = req.user.id;
+
+      //verificar que el usuario solo pueda crear órdenes para sí mismo
+      if (parseInt(usuarioId) !== userId && req.user.rol !== 'Administrador') {
+        return res.status(403).json({ error: 'No tienes permisos para crear órdenes para este usuario' });
+      }
 
       const carritoItems = await Carrito.getByUsuario(usuarioId);
       if (carritoItems.length === 0) {

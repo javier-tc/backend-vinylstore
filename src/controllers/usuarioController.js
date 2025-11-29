@@ -1,4 +1,5 @@
 import { Usuario } from '../models/Usuario.js';
+import jwt from 'jsonwebtoken';
 
 export const usuarioController = {
   async getAll(req, res) {
@@ -96,13 +97,83 @@ export const usuarioController = {
         return res.status(401).json({ error: 'Credenciales inválidas' });
       }
 
-      //retornar usuario sin password
+      //generar token JWT
+      const jwtSecret = process.env.JWT_SECRET || 'tu_secret_key_muy_segura_cambiar_en_produccion';
+      const token = jwt.sign(
+        { 
+          userId: usuario.id,
+          email: usuario.email,
+          rol: usuario.rol
+        },
+        jwtSecret,
+        { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
+      );
+
+      //generar refresh token
+      const refreshToken = jwt.sign(
+        { 
+          userId: usuario.id,
+          type: 'refresh'
+        },
+        jwtSecret,
+        { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d' }
+      );
+
+      //retornar usuario sin password y tokens
       const { password: _, ...usuarioSinPassword } = usuario;
       res.json({
         message: 'Login exitoso',
+        token,
+        refreshToken,
         usuario: usuarioSinPassword
       });
     } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  async refreshToken(req, res) {
+    try {
+      const { refreshToken } = req.body;
+
+      if (!refreshToken) {
+        return res.status(400).json({ error: 'Refresh token requerido' });
+      }
+
+      const jwtSecret = process.env.JWT_SECRET || 'tu_secret_key_muy_segura_cambiar_en_produccion';
+      
+      //verificar refresh token
+      const decoded = jwt.verify(refreshToken, jwtSecret);
+      
+      if (decoded.type !== 'refresh') {
+        return res.status(401).json({ error: 'Token inválido' });
+      }
+
+      //buscar usuario
+      const usuario = await Usuario.getById(decoded.userId);
+      if (!usuario || !usuario.activo) {
+        return res.status(401).json({ error: 'Usuario no válido' });
+      }
+
+      //generar nuevo token
+      const newToken = jwt.sign(
+        { 
+          userId: usuario.id,
+          email: usuario.email,
+          rol: usuario.rol
+        },
+        jwtSecret,
+        { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
+      );
+
+      res.json({
+        message: 'Token renovado exitosamente',
+        token: newToken
+      });
+    } catch (error) {
+      if (error.name === 'JsonWebTokenError' || error.name === 'TokenExpiredError') {
+        return res.status(401).json({ error: 'Refresh token inválido o expirado' });
+      }
       res.status(500).json({ error: error.message });
     }
   },

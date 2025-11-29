@@ -36,7 +36,12 @@ npm install
    DB_PASSWORD=tu_contraseña
    DB_NAME=vinylstore
    PORT=3000
+   JWT_SECRET=tu_secret_key_muy_segura_cambiar_en_produccion
+   JWT_EXPIRES_IN=24h
+   JWT_REFRESH_EXPIRES_IN=7d
    ```
+   
+   **Importante**: Cambia `JWT_SECRET` por una clave secreta segura y única en producción.
 
 ## Ejecución
 
@@ -923,6 +928,9 @@ backend-vinylstore/
 │   │   ├── blogController.js
 │   │   ├── carritoController.js
 │   │   └── ordenController.js
+│   ├── middleware/              # Middlewares
+│   │   ├── auth.js              # Autenticación JWT
+│   │   └── authorize.js         # Autorización por roles
 │   └── routes/                  # Rutas
 │       ├── users.js
 │       ├── categorias.js
@@ -946,6 +954,168 @@ backend-vinylstore/
 - ✅ Documentación Swagger
 - ✅ CORS habilitado
 - ✅ Manejo de errores
+- ✅ Autenticación JWT con roles
+- ✅ Sistema de renovación de tokens
+
+## Autenticación y Autorización
+
+### Sistema de Autenticación JWT
+
+El backend implementa autenticación basada en tokens JWT (JSON Web Tokens) con gestión de roles para controlar el acceso a los recursos.
+
+#### Características de Seguridad
+
+1. **Autenticación JWT**: Los usuarios se autentican mediante tokens JWT que se generan al iniciar sesión
+2. **Gestión de Roles**: Sistema de roles (Usuario, Administrador) para controlar permisos
+3. **Tokens de Renovación**: Sistema de refresh tokens para renovar tokens expirados
+4. **Validación de Usuarios**: Verificación de usuarios activos y existencia en cada petición
+
+#### Proceso de Autenticación
+
+1. **Login**: El usuario envía email y contraseña
+2. **Verificación**: Se verifica la contraseña con bcrypt y el estado del usuario
+3. **Generación de Tokens**: Se generan dos tokens:
+   - **Access Token**: Válido por 24 horas (configurable)
+   - **Refresh Token**: Válido por 7 días (configurable)
+4. **Uso del Token**: El cliente debe incluir el token en el header `Authorization: Bearer <token>`
+
+#### Endpoints de Autenticación
+
+##### POST /api/usuarios/login
+Iniciar sesión y obtener tokens JWT
+
+**Request:**
+```json
+{
+  "email": "usuario@example.com",
+  "password": "password123"
+}
+```
+
+**Response:**
+```json
+{
+  "message": "Login exitoso",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "usuario": {
+    "id": 1,
+    "nombre": "Juan",
+    "apellido": "Pérez",
+    "email": "usuario@example.com",
+    "rol": "Usuario"
+  }
+}
+```
+
+##### POST /api/usuarios/refresh-token
+Renovar un token expirado usando el refresh token
+
+**Request:**
+```json
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+**Response:**
+```json
+{
+  "message": "Token renovado exitosamente",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+#### Uso de Tokens en Peticiones
+
+Para acceder a rutas protegidas, incluye el token en el header:
+
+```bash
+curl -X GET http://localhost:3000/api/carrito/1 \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+```
+
+```javascript
+const response = await fetch('http://localhost:3000/api/carrito/1', {
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+});
+```
+
+#### Roles y Permisos
+
+##### Rol: Usuario
+- Puede ver y modificar su propio carrito
+- Puede crear órdenes para sí mismo
+- Puede ver sus propias órdenes
+- Puede ver productos, categorías y blogs (solo lectura)
+
+##### Rol: Administrador
+- Todos los permisos de Usuario
+- Puede gestionar usuarios (CRUD completo)
+- Puede gestionar productos, categorías y blogs (CRUD completo)
+- Puede ver y gestionar todas las órdenes
+- Puede acceder a cualquier carrito
+
+#### Rutas Protegidas
+
+**Rutas Públicas (sin autenticación):**
+- `POST /api/usuarios` - Registro
+- `POST /api/usuarios/login` - Login
+- `POST /api/usuarios/refresh-token` - Renovar token
+- `GET /api/productos` - Ver productos
+- `GET /api/categorias` - Ver categorías
+- `GET /api/blogs` - Ver blogs
+
+**Rutas que requieren autenticación (cualquier usuario):**
+- `GET /api/usuarios/:id` - Ver perfil propio
+- `PUT /api/usuarios/:id` - Actualizar perfil propio
+- Todas las rutas de `/api/carrito/:usuarioId` - Solo su propio carrito
+- `POST /api/ordenes` - Crear orden
+- `POST /api/ordenes/carrito/:usuarioId` - Crear orden desde carrito
+- `GET /api/ordenes/:id` - Ver orden propia
+
+**Rutas que requieren rol Administrador:**
+- `GET /api/usuarios` - Listar todos los usuarios
+- `DELETE /api/usuarios/:id` - Eliminar usuario
+- `POST /api/categorias` - Crear categoría
+- `PUT /api/categorias/:id` - Actualizar categoría
+- `DELETE /api/categorias/:id` - Eliminar categoría
+- `POST /api/productos` - Crear producto
+- `PUT /api/productos/:id` - Actualizar producto
+- `DELETE /api/productos/:id` - Eliminar producto
+- `POST /api/blogs` - Crear blog
+- `PUT /api/blogs/:id` - Actualizar blog
+- `DELETE /api/blogs/:id` - Eliminar blog
+- `GET /api/ordenes` - Ver todas las órdenes
+- `PUT /api/ordenes/:id` - Actualizar orden
+- `DELETE /api/ordenes/:id` - Eliminar orden
+
+#### Implementación Técnica
+
+##### Middleware de Autenticación (`src/middleware/auth.js`)
+- Verifica el token JWT en el header `Authorization`
+- Valida la firma del token usando `JWT_SECRET`
+- Verifica que el usuario existe y está activo en la base de datos
+- Añade información del usuario a `req.user` para uso en controladores
+
+##### Middleware de Autorización (`src/middleware/authorize.js`)
+- Verifica que el usuario tenga uno de los roles permitidos
+- Se usa después del middleware de autenticación
+- Permite especificar múltiples roles: `authorize('Administrador')` o `authorize('Usuario', 'Administrador')`
+
+##### Generación de Tokens
+- **Access Token**: Contiene `userId`, `email`, `rol` - Expira en 24h
+- **Refresh Token**: Contiene `userId`, `type: 'refresh'` - Expira en 7d
+- Ambos tokens se firman con `JWT_SECRET`
+
+##### Seguridad Implementada
+1. **Validación de Tokens**: Cada petición verifica la validez del token
+2. **Verificación de Usuario**: Se verifica que el usuario existe y está activo
+3. **Control de Acceso**: Los usuarios solo pueden acceder a sus propios recursos
+4. **Renovación Segura**: Los refresh tokens se validan antes de generar nuevos tokens
+5. **Manejo de Errores**: Errores específicos para tokens inválidos, expirados, etc.
 
 ## Notas
 
@@ -953,6 +1123,9 @@ backend-vinylstore/
 - El stock se actualiza automáticamente cuando se crea una orden
 - Los triggers de la base de datos validan el stock antes de agregar al carrito
 - Las vistas de base de datos optimizan las consultas de productos y órdenes
+- Los tokens JWT deben almacenarse de forma segura en el cliente (no en localStorage si es posible)
+- En producción, usa un `JWT_SECRET` fuerte y único
+- Los tokens expirados pueden renovarse usando el refresh token
 
 
 
